@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SwapMatch | FIFA World Cup 2026 Ticket Exchange</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   SWAPMATCH — COMPLETE DESIGN SYSTEM
+   ═══════════════════════════════════════════════ */
+:root {
+  --bg:           #04040A;
+  --bg-card:      rgba(8,8,20,0.82);
+  --bg-elevated:  rgba(12,12,28,0.95);
+  --cyan:         #00E5FF;
+  --magenta:      #FF0055;
+  --amber:        #FFC107;
+  --green:        #00FF88;
+  --white:        #FFFFFF;
+  --muted:        rgba(255,255,255,0.45);
+  --muted2:       rgba(255,255,255,0.25);
+  --line:         rgba(255,255,255,0.08);
+  --line2:        rgba(255,255,255,0.05);
+  --cyan-glow:    rgba(0,229,255,0.22);
+  --magenta-glow: rgba(255,0,85,0.22);
+  --green-glow:   rgba(0,255,136,0.2);
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'Space Grotesk', sans-serif;
+  --font-ui:      'Outfit', sans-serif;
+  --px: clamp(20px, 5vw, 100px);
+  --radius: 10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--font-body);-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+input,select,textarea{font-family:var(--font-body);outline:none}
+ul{list-style:none}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--cyan);border-radius:2px}
+
+/* ── AMBIENT BG ── */
+.ambient{position:fixed;inset:0;z-index:0;
+  background:url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=2400') center/cover no-repeat;
+  opacity:.18;filter:contrast(1.2) grayscale(.55);animation:slowPan 40s infinite alternate linear}
+.ambient-overlay{position:fixed;inset:0;z-index:1;
+  background:radial-gradient(ellipse 800px 500px at 80% 10%,rgba(0,229,255,.1) 0%,transparent 70%),
+             radial-gradient(ellipse 600px 400px at 10% 85%,rgba(255,0,85,.09) 0%,transparent 70%),
+             linear-gradient(to right,var(--bg) 20%,transparent 60%),
+             linear-gradient(to bottom,transparent 50%,var(--bg) 100%)}
+@keyframes slowPan{0%{transform:scale(1)}100%{transform:scale(1.06)}}
+.grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ── CORNERS ── */
+.ch{position:fixed;z-index:60;width:14px;height:14px;pointer-events:none}
+.ch::before,.ch::after{content:'';position:absolute;background:rgba(255,255,255,.25)}
+.ch::before{height:1px;top:50%;left:0;right:0}.ch::after{width:1px;left:50%;top:0;bottom:0}
+.ch-tl{top:24px;left:24px}.ch-tr{top:24px;right:24px}.ch-bl{bottom:24px;left:24px}.ch-br{bottom:24px;right:24px}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:18px var(--px);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);
+  background:rgba(4,4,10,.65);gap:20px}
+.nav-logo{font-family:var(--font-display);font-size:1.5rem;letter-spacing:.06em;cursor:pointer}
+.nav-logo span{color:var(--cyan)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-link{font-family:var(--font-ui);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);transition:color .3s;cursor:pointer}
+.nav-link:hover,.nav-link.active{color:var(--white)}
+.nav-actions{display:flex;gap:12px;align-items:center}
+.nav-user{display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 12px;
+  border:1px solid var(--line);border-radius:var(--radius);transition:all .3s}
+.nav-user:hover{border-color:var(--cyan-glow)}
+.nav-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--magenta));
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:.9rem}
+.nav-username{font-size:.75rem;color:var(--white);font-weight:500}
+
+/* ── BUTTONS ── */
+.btn{font-family:var(--font-ui);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:14px 32px;border:1px solid;cursor:pointer;background:transparent;color:var(--white);
+  display:inline-flex;align-items:center;gap:10px;position:relative;overflow:hidden;transition:all .35s;border-radius:2px}
+.btn::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);
+  transform:translateX(-100%);transition:transform .5s}
+.btn:hover::before{transform:translateX(100%)}
+.btn-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.btn-cyan{border-color:var(--cyan)}
+.btn-cyan .btn-dot{background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+.btn-cyan:hover{box-shadow:inset 0 0 20px var(--cyan-glow),0 0 20px var(--cyan-glow)}
+.btn-magenta{border-color:var(--magenta)}
+.btn-magenta .btn-dot{background:var(--magenta);box-shadow:0 0 8px var(--magenta)}
+.btn-magenta:hover{box-shadow:inset 0 0 20px var(--magenta-glow),0 0 20px var(--magenta-glow)}
+.btn-ghost{border-color:var(--line);color:var(--muted)}
+.btn-ghost:hover{border-color:rgba(255,255,255,.3);color:var(--white)}
+.btn-fill-cyan{background:linear-gradient(135deg,rgba(0,229,255,.15),rgba(0,229,255,.05));border-color:var(--cyan)}
+.btn-fill-cyan:hover{background:linear-gradient(135deg,rgba(0,229,255,.25),rgba(0,229,255,.1))}
+.btn-sm{padding:10px 22px;font-size:.7rem}
+.btn-lg{padding:18px 44px;font-size:.85rem}
+.btn-block{width:100%;justify-content:center}
+
+/* ── FORM ELEMENTS ── */
+.form-group{margin-bottom:20px}
+.form-label{font-family:var(--font-ui);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:8px;display:block}
+.form-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line);
+  border-radius:var(--radius);padding:13px 16px;color:var(--white);font-size:.9rem;
+  transition:border-color .3s,box-shadow .3s;font-family:var(--font-body)}
+.form-input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px var(--cyan-glow)}
+.form-input::placeholder{color:var(--muted2)}
+.form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,.4)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:40px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-check{display:flex;align-items:flex-start;gap:12px;cursor:pointer}
+.form-check input[type=checkbox]{width:16px;height:16px;accent-color:var(--cyan);margin-top:2px;flex-shrink:0}
+.form-check-label{font-size:.82rem;color:var(--muted);line-height:1.5}
+.form-error{font-size:.72rem;color:var(--magenta);margin-top:6px;display:none}
+.form-hint{font-size:.72rem;color:var(--muted2);margin-top:6px}
+
+/* ── CARDS ── */
+.card{background:var(--bg-card);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:var(--radius)}
+.card-cyan{border-left:2px solid var(--cyan);box-shadow:inset 16px 0 36px -20px var(--cyan-glow)}
+.card-magenta{border-left:2px solid var(--magenta);box-shadow:inset 16px 0 36px -20px var(--magenta-glow)}
+.card-green{border-left:2px solid var(--green);box-shadow:inset 16px 0 36px -20px var(--green-glow)}
+
+/* ── BADGES ── */
+.badge{font-family:var(--font-ui);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:5px}
+.badge-cyan{background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.25);color:var(--cyan)}
+.badge-magenta{background:rgba(255,0,85,.1);border:1px solid rgba(255,0,85,.25);color:var(--magenta)}
+.badge-green{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.25);color:var(--green)}
+.badge-amber{background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.25);color:var(--amber)}
+.badge-dot{width:4px;height:4px;border-radius:50%;background:currentColor;box-shadow:0 0 6px currentColor}
+
+/* ── SECTION LABELS ── */
+.section-label{font-family:var(--font-ui);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--cyan);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.section-label::before{content:'';display:block;width:28px;height:1px;background:var(--cyan);opacity:.5}
+.section-headline{font-family:var(--font-display);font-size:clamp(2.8rem,5.5vw,5rem);
+  line-height:.94;text-transform:uppercase;margin-bottom:50px}
+.hl-stroke{-webkit-text-stroke:1px var(--white);color:transparent}
+.hl-cyan{color:var(--cyan);text-shadow:0 0 30px var(--cyan-glow)}
+.hl-magenta{color:var(--magenta);text-shadow:0 0 30px var(--magenta-glow)}
+
+/* ── NOTICES ── */
+.notice{border:1px solid rgba(255,193,7,.28);border-left:3px solid var(--amber);
+  border-radius:var(--radius);padding:22px 28px;background:rgba(255,193,7,.05);
+  display:flex;gap:16px;align-items:flex-start}
+.notice-label{font-family:var(--font-ui);font-size:.62rem;color:var(--amber);
+  letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px;font-weight:700}
+.notice p{font-size:.84rem;color:rgba(255,255,255,.75);line-height:1.7;font-weight:300}
+
+/* ── TOAST ── */
+#toast-container{position:fixed;top:80px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px}
+.toast{background:var(--bg-elevated);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 20px;min-width:280px;display:flex;align-items:center;gap:12px;
+  box-shadow:0 20px 50px rgba(0,0,0,.5);animation:slideIn .3s ease;font-size:.85rem}
+.toast.success{border-left:3px solid var(--green)}
+.toast.error{border-left:3px solid var(--magenta)}
+.toast.info{border-left:3px solid var(--cyan)}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(30px)}}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);
+  backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;
+  padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--bg-elevated);border:1px solid var(--line);border-radius:14px;
+  width:100%;max-width:560px;max-height:90vh;overflow-y:auto;
+  transform:translateY(20px);transition:transform .3s;position:relative}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-header{padding:28px 32px 20px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-family:var(--font-display);font-size:1.8rem;letter-spacing:.04em}
+.modal-close{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;color:var(--muted);
+  cursor:pointer;transition:all .3s;font-size:1.1rem;background:none}
+.modal-close:hover{border-color:var(--magenta);color:var(--magenta)}
+.modal-body{padding:28px 32px 32px}
+
+/* ── PAGES ── */
+.page{position:relative;z-index:5;min-height:100vh;display:none}
+.page.active{display:block}
+
+/* ══════════════════════════════════════════
+   PAGE: LANDING
+   ══════════════════════════════════════════ */
+.hero{min-height:100vh;padding:120px var(--px) 80px;
+  display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:50px}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.hero-right{display:none}}
+
+.meta-pill{display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--font-ui);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--cyan);border:1px solid rgba(0,229,255,.22);padding:6px 14px;border-radius:20px;
+  background:rgba(0,229,255,.05);margin-bottom:26px}
+.meta-pill-dot{width:6px;height:6px;background:var(--cyan);border-radius:50%;
+  box-shadow:0 0 10px var(--cyan);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+
+.hero-headline{font-family:var(--font-display);font-size:clamp(4rem,8.5vw,8rem);
+  line-height:.92;text-transform:uppercase;margin-bottom:28px;letter-spacing:.02em}
+.hero-sub{font-size:1rem;color:var(--muted);line-height:1.72;max-width:460px;margin-bottom:12px;font-weight:300}
+.hero-disclaimer{font-size:.68rem;color:rgba(255,255,255,.28);line-height:1.6;max-width:420px;margin-bottom:40px}
+.cta-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+
+/* Ticket graphic */
+.hero-right{display:flex;justify-content:center;align-items:center;height:560px;position:relative}
+.graphic-wrap{position:relative;width:100%;height:100%;animation:float 8s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
+.radar{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid var(--line)}
+.radar-1{width:170px;height:170px;border-top-color:var(--cyan);animation:spin 20s linear infinite}
+.radar-2{width:300px;height:300px;border-bottom-color:var(--magenta);animation:spin 35s linear infinite reverse;opacity:.5}
+.radar-3{width:440px;height:440px;border-style:dashed;opacity:.14}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.match-line{position:absolute;top:48%;left:28%;width:44%;height:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--magenta));transform:rotate(-28deg);
+  box-shadow:0 0 12px rgba(255,255,255,.2);overflow:hidden}
+.match-line::after{content:'';position:absolute;top:0;left:0;width:26px;height:100%;
+  background:white;box-shadow:0 0 18px white;animation:shoot 2.5s infinite ease-in-out}
+@keyframes shoot{0%{transform:translateX(-100%);opacity:0}40%{opacity:1}100%{transform:translateX(500%);opacity:0}}
+.ticket-card{position:absolute;width:295px;padding:18px 20px;background:var(--bg-card);
+  backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:10px;
+  box-shadow:0 22px 55px rgba(0,0,0,.5)}
+.t-have{top:16%;left:4%;border-left:2px solid var(--cyan);
+  transform:perspective(600px) rotateY(11deg) rotateX(7deg);
+  box-shadow:0 22px 55px rgba(0,0,0,.5),inset 14px 0 36px -20px var(--cyan-glow)}
+.t-want{bottom:14%;right:2%;border-right:2px solid var(--magenta);
+  transform:perspective(600px) rotateY(-11deg) rotateX(-7deg);
+  box-shadow:0 22px 55px rgba(0,0,0,.5),inset -14px 0 36px -20px var(--magenta-glow)}
+.t-top{display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:12px}
+.t-id{font-family:var(--font-ui);font-size:.53rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.t-name{font-family:var(--font-display);font-size:1.9rem;line-height:1}
+.t-date{font-family:var(--font-ui);font-size:.62rem;color:var(--muted);margin-bottom:4px}
+.t-bottom{display:flex;justify-content:space-between;align-items:flex-end}
+.t-barcode-c{width:85px;height:20px;background:repeating-linear-gradient(90deg,rgba(0,229,255,.5),rgba(0,229,255,.5) 2px,transparent 2px,transparent 5px);opacity:.4}
+.t-barcode-m{width:85px;height:20px;background:repeating-linear-gradient(90deg,rgba(255,0,85,.6),rgba(255,0,85,.6) 2px,transparent 2px,transparent 5px);opacity:.5}
+
+/* Problems */
+.problems-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:1000px){.problems-grid{grid-template-columns:1fr}}
+@media(min-width:600px) and (max-width:1000px){.problems-grid{grid-template-columns:repeat(2,1fr)}}
+.p-card{padding:34px 26px;display:flex;flex-direction:column;transition:transform .4s;border-radius:var(--radius)}
+.p-card:hover{transform:translateY(-7px)}
+.p-num{font-family:var(--font-ui);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.p-num::before{content:'';width:26px;height:1px;background:currentColor;opacity:.4}
+.card-cyan .p-num{color:var(--cyan)}.card-magenta .p-num{color:var(--magenta)}
+.p-quote{font-family:var(--font-display);font-size:1.75rem;line-height:1.05;margin-bottom:18px}
+.p-text{font-size:.9rem;color:var(--muted);line-height:1.75;font-weight:300;flex-grow:1}
+.p-text p{margin-bottom:10px}.p-text p:last-child{margin-bottom:0}
+.p-text strong{color:var(--white);font-weight:500}
+
+/* Trust score demo */
+.score-card-demo{padding:30px}
+.score-user{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.score-avatar{width:48px;height:48px;border-radius:50%;
+  background:linear-gradient(135deg,var(--cyan),var(--magenta));
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.3rem;flex-shrink:0}
+.score-name{font-weight:600;font-size:.95rem}
+.score-sub{font-size:.68rem;color:var(--muted);margin-top:2px}
+.trust-num{font-family:var(--font-display);font-size:2.1rem;color:var(--cyan);
+  text-shadow:0 0 18px var(--cyan-glow);line-height:1;text-align:center}
+.trust-num span{display:block;font-family:var(--font-ui);font-size:.52rem;
+  color:var(--muted);letter-spacing:.12em;text-transform:uppercase;text-shadow:none}
+.bar-item{display:grid;grid-template-columns:130px 1fr 40px;align-items:center;gap:12px;margin-bottom:12px}
+.bar-label{font-size:.7rem;color:var(--muted)}
+.bar-track{height:4px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--cyan),rgba(0,229,255,.5));transition:width 1s ease}
+.bar-val{font-size:.68rem;color:var(--cyan);text-align:right;font-weight:600}
+
+/* Flow steps */
+.flow-list{display:flex;flex-direction:column;gap:0;max-width:760px;margin:0 auto}
+.flow-step{display:grid;grid-template-columns:56px 1fr;gap:26px;padding:32px 0;border-bottom:1px solid var(--line)}
+.flow-step:last-child{border-bottom:none}
+.flow-num{font-family:var(--font-display);font-size:2.8rem;line-height:1}
+.flow-title{font-family:var(--font-display);font-size:1.4rem;letter-spacing:.04em;margin-bottom:6px}
+.flow-text{font-size:.86rem;color:var(--muted);line-height:1.72;font-weight:300;margin-bottom:10px}
+.tag{font-family:var(--font-ui);font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:3px 10px;border-radius:20px;display:inline-block}
+.tag-c{background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);color:var(--cyan)}
+.tag-m{background:rgba(255,0,85,.08);border:1px solid rgba(255,0,85,.2);color:var(--magenta)}
+.tag-a{background:rgba(255,193,7,.08);border:1px solid rgba(255,193,7,.2);color:var(--amber)}
+
+/* ══════════════════════════════════════════
+   PAGE: BROWSE / MATCHES
+   ══════════════════════════════════════════ */
+.page-inner{padding:100px var(--px) 60px}
+.page-title{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4.5rem);
+  text-transform:uppercase;line-height:.94;margin-bottom:8px}
+.page-sub{font-size:.92rem;color:var(--muted);font-weight:300;margin-bottom:40px}
+
+.filters-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:36px;
+  padding:18px 22px;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius)}
+.filter-select{background:rgba(255,255,255,.04);border:1px solid var(--line);
+  border-radius:6px;padding:8px 32px 8px 12px;color:var(--white);font-size:.78rem;
+  font-family:var(--font-ui);transition:border-color .3s;cursor:pointer;
+  appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,.4)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center}
+.filter-select:focus,.filter-select:hover{border-color:var(--cyan);outline:none}
+.trust-filter{display:flex;align-items:center;gap:10px;margin-left:auto}
+.trust-filter label{font-size:.72rem;color:var(--muted);font-family:var(--font-ui)}
+.trust-slider{accent-color:var(--cyan);width:100px}
+
+.listings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:22px}
+.listing-card{padding:24px;transition:transform .3s,border-color .3s;cursor:pointer;border-radius:var(--radius)}
+.listing-card:hover{transform:translateY(-5px)}
+.listing-card.card-cyan:hover{border-color:rgba(0,229,255,.5)}
+.listing-card.card-magenta:hover{border-color:rgba(255,0,85,.5)}
+.lc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.lc-match{font-family:var(--font-display);font-size:1.6rem;line-height:1}
+.lc-user{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.lc-avatar{width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:.9rem;flex-shrink:0}
+.lc-username{font-size:.82rem;font-weight:500}
+.lc-score{font-family:var(--font-display);font-size:.95rem;margin-left:auto}
+.lc-details{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.lc-detail-box{background:rgba(255,255,255,.03);border:1px solid var(--line);
+  border-radius:6px;padding:12px}
+.lc-detail-label{font-size:.58rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;
+  font-family:var(--font-ui);margin-bottom:5px}
+.lc-detail-val{font-size:.88rem;font-weight:500}
+.lc-actions{display:flex;gap:10px}
+
+/* Compatibility bar */
+.compat-bar{margin-bottom:16px}
+.compat-label{display:flex;justify-content:space-between;margin-bottom:6px}
+.compat-label span:first-child{font-size:.65rem;color:var(--muted);font-family:var(--font-ui);letter-spacing:.1em;text-transform:uppercase}
+.compat-label span:last-child{font-size:.75rem;color:var(--cyan);font-weight:600}
+.compat-track{height:5px;background:var(--line);border-radius:99px;overflow:hidden}
+.compat-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--cyan),rgba(0,229,255,.4))}
+
+/* ══════════════════════════════════════════
+   PAGE: MY LISTING / DASHBOARD
+   ══════════════════════════════════════════ */
+.dashboard-grid{display:grid;grid-template-columns:280px 1fr;gap:30px}
+@media(max-width:900px){.dashboard-grid{grid-template-columns:1fr}}
+.sidebar{display:flex;flex-direction:column;gap:16px}
+.sidebar-card{padding:24px}
+.profile-header{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:20px}
+.profile-avatar{width:70px;height:70px;border-radius:50%;
+  background:linear-gradient(135deg,var(--cyan),var(--magenta));
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:2rem;margin-bottom:12px}
+.profile-name{font-weight:600;font-size:1rem;margin-bottom:4px}
+.profile-since{font-size:.68rem;color:var(--muted)}
+.trust-big{font-family:var(--font-display);font-size:3.5rem;color:var(--cyan);
+  text-align:center;text-shadow:0 0 24px var(--cyan-glow);line-height:1;margin-bottom:4px}
+.trust-big-label{font-size:.62rem;color:var(--muted);text-align:center;letter-spacing:.14em;text-transform:uppercase;font-family:var(--font-ui)}
+.sidebar-divider{height:1px;background:var(--line);margin:16px 0}
+.sidebar-stat{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sidebar-stat-label{font-size:.78rem;color:var(--muted)}
+.sidebar-stat-val{font-size:.82rem;font-weight:600;color:var(--white)}
+.sidebar-nav{display:flex;flex-direction:column;gap:2px;margin-top:4px}
+.sidebar-nav-item{padding:10px 14px;border-radius:6px;cursor:pointer;transition:all .25s;
+  font-size:.82rem;display:flex;align-items:center;gap:10px}
+.sidebar-nav-item:hover,.sidebar-nav-item.active{background:rgba(0,229,255,.07);color:var(--cyan)}
+.sidebar-nav-item .nav-icon{font-size:.9rem;width:18px;text-align:center}
+
+.main-content{display:flex;flex-direction:column;gap:24px}
+.section-card{padding:28px}
+.sc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.sc-title{font-family:var(--font-display);font-size:1.5rem;letter-spacing:.04em}
+.proposal-list{display:flex;flex-direction:column;gap:14px}
+.proposal-item{padding:18px 20px;display:flex;align-items:center;gap:16px;border-radius:var(--radius);
+  background:rgba(255,255,255,.025);border:1px solid var(--line);transition:all .3s;cursor:pointer}
+.proposal-item:hover{border-color:rgba(0,229,255,.25);background:rgba(0,229,255,.04)}
+.proposal-match{font-family:var(--font-display);font-size:1.2rem;flex:1}
+.proposal-meta{font-size:.72rem;color:var(--muted)}
+.proposal-actions{display:flex;gap:8px}
+.status-timeline{display:flex;gap:0;margin-top:8px}
+.status-step{display:flex;align-items:center;flex:1}
+.status-dot{width:10px;height:10px;border-radius:50%;background:var(--line);flex-shrink:0;position:relative}
+.status-dot.done{background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+.status-dot.current{background:var(--amber);box-shadow:0 0 8px var(--amber);animation:pulse 1.5s infinite}
+.status-line{flex:1;height:1px;background:var(--line)}
+.status-line.done{background:var(--cyan)}
+
+/* ══════════════════════════════════════════
+   PAGE: LIST TICKET
+   ══════════════════════════════════════════ */
+.list-ticket-wrap{max-width:700px;margin:0 auto}
+.step-indicator{display:flex;gap:0;margin-bottom:50px;align-items:center}
+.step-ind-item{display:flex;align-items:center;flex:1}
+.step-ind-dot{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-ui);font-size:.72rem;flex-shrink:0;transition:all .3s}
+.step-ind-dot.done{background:var(--cyan);border-color:var(--cyan);color:#000}
+.step-ind-dot.current{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 12px var(--cyan-glow)}
+.step-ind-line{flex:1;height:1px;background:var(--line);transition:background .3s}
+.step-ind-line.done{background:var(--cyan)}
+.step-form{display:none}.step-form.active{display:block}
+.step-heading{font-family:var(--font-display);font-size:2.2rem;letter-spacing:.04em;margin-bottom:6px}
+.step-sub{font-size:.88rem;color:var(--muted);margin-bottom:30px;font-weight:300}
+
+/* ══════════════════════════════════════════
+   PAGE: PROPOSAL DETAIL
+   ══════════════════════════════════════════ */
+.proposal-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px}
+@media(max-width:700px){.proposal-detail-grid{grid-template-columns:1fr}}
+.ticket-preview{padding:24px}
+.tp-label{font-size:.62rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;
+  font-family:var(--font-ui);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.tp-match{font-family:var(--font-display);font-size:2.5rem;line-height:1;margin-bottom:8px}
+.tp-meta{font-size:.82rem;color:var(--muted)}
+
+/* ══════════════════════════════════════════
+   PAGE: FEEDBACK
+   ══════════════════════════════════════════ */
+.star-rating{display:flex;gap:8px}
+.star{font-size:1.8rem;cursor:pointer;color:var(--line);transition:color .2s,transform .2s}
+.star:hover,.star.active{color:var(--amber);transform:scale(1.15)}
+
+/* ══════════════════════════════════════════
+   SCROLL ANIMATIONS
+   ══════════════════════════════════════════ */
+.fade-in{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+.fade-in-d1{transition-delay:.1s}.fade-in-d2{transition-delay:.2s}.fade-in-d3{transition-delay:.3s}
+
+/* ══════════════════════════════════════════
+   DIVIDER & FOOTER
+   ══════════════════════════════════════════ */
+.divider{position:relative;z-index:5;width:100%;height:1px;background:var(--line)}
+footer{position:relative;z-index:5;padding:30px var(--px);border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-logo{font-family:var(--font-display);font-size:1.1rem;letter-spacing:.08em}
+.footer-logo span{color:var(--cyan)}
+.footer-text{font-size:.58rem;color:rgba(255,255,255,.22);letter-spacing:.06em;text-transform:uppercase;
+  max-width:500px;text-align:center;line-height:1.6}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transition:color .3s;cursor:pointer}
+.footer-links a:hover{color:var(--cyan)}
+
+/* ══════════════════════════════════════════
+   EMPTY STATE
+   ══════════════════════════════════════════ */
+.empty-state{text-align:center;padding:60px 20px}
+.empty-icon{font-size:3rem;margin-bottom:16px;opacity:.4}
+.empty-title{font-family:var(--font-display);font-size:1.6rem;margin-bottom:8px}
+.empty-sub{font-size:.88rem;color:var(--muted);font-weight:300}
+
+/* ══ MISC ══ */
+.divider-label{display:flex;align-items:center;gap:14px;margin:20px 0;color:var(--muted2);font-size:.72rem}
+.divider-label::before,.divider-label::after{content:'';flex:1;height:1px;background:var(--line)}
+.text-cyan{color:var(--cyan)}.text-magenta{color:var(--magenta)}.text-amber{color:var(--amber)}.text-green{color:var(--green)}
+.text-muted{color:var(--muted)}.text-sm{font-size:.82rem}.text-xs{font-size:.72rem}
+.mt-4{margin-top:16px}.mt-6{margin-top:24px}.mt-8{margin-top:32px}.mb-4{margin-bottom:16px}.mb-6{margin-bottom:24px}
+.flex{display:flex}.gap-3{gap:12px}.gap-4{gap:16px}.items-center{align-items:center}.justify-between{justify-content:space-between}.flex-wrap{flex-wrap:wrap}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:600px){.grid-2{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}}
+.w-full{width:100%}.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- Ambient -->
+<div class="ambient"></div>
+<div class="ambient-overlay"></div>
+<div class="grain"></div>
+<div class="ch ch-tl"></div><div class="ch ch-tr"></div>
+<div class="ch ch-bl"></div><div class="ch ch-br"></div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<!-- ════════════════════════════════
+     NAVIGATION
+     ════════════════════════════════ -->
+<nav class="nav" id="main-nav">
+  <div class="nav-logo" onclick="showPage('landing')">Swap<span>Match</span></div>
+  <div class="nav-links" id="nav-links">
+    <span class="nav-link" onclick="scrollToSection('problems')">Problems</span>
+    <span class="nav-link" onclick="scrollToSection('services')">Services</span>
+    <span class="nav-link" onclick="scrollToSection('how-it-works')">How It Works</span>
+    <span class="nav-link" onclick="showPage('browse')">Browse Swaps</span>
+  </div>
+  <div class="nav-actions" id="nav-actions">
+    <button class="btn btn-ghost btn-sm" onclick="openModal('modal-login')">Sign In</button>
+    <button class="btn btn-cyan btn-sm" onclick="openModal('modal-signup')">
+      <span class="btn-dot"></span>Start Free
+    </button>
+  </div>
+  <div class="nav-actions hidden" id="nav-user-actions">
+    <button class="btn btn-cyan btn-sm" onclick="showPage('list-ticket')">
+      <span class="btn-dot"></span>List Ticket
+    </button>
+    <div class="nav-user" onclick="showPage('dashboard')">
+      <div class="nav-avatar" id="nav-avatar-letter">M</div>
+      <span class="nav-username" id="nav-username-display">Marco</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════
+     MODAL: SIGN UP
+     ════════════════════════════════ -->
+<div class="modal-overlay" id="modal-signup">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Create Account</div>
+      <button class="modal-close" onclick="closeModal('modal-signup')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="notice mb-6" style="padding:14px 18px">
+        <div>⚠️</div>
+        <div><p>SwapMatch is a matching platform only. All ticket actions must be completed via FIFA's official system.</p></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input class="form-input" id="su-first" placeholder="Marco" type="text">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input class="form-input" id="su-last" placeholder="Silva" type="text">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" id="su-email" placeholder="marco@example.com" type="email">
+        <div class="form-error" id="su-email-err">Please enter a valid email</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="su-pass" placeholder="Min. 8 characters" type="password">
+        <div class="form-error" id="su-pass-err">Password must be at least 8 characters</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Country</label>
+        <select class="form-input form-select" id="su-country">
+          <option value="">Select country</option>
+          <option>United States</option><option>Brazil</option><option>Argentina</option>
+          <option>Germany</option><option>France</option><option>Spain</option>
+          <option>England</option><option>Japan</option><option>Mexico</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-check">
+          <input type="checkbox" id="su-terms">
+          <span class="form-check-label">I understand SwapMatch is a matching platform only. All ticket transfers must be completed through FIFA's official system. I use this platform entirely at my own risk.</span>
+        </label>
+        <div class="form-error" id="su-terms-err">You must accept the terms to continue</div>
+      </div>
+      <div class="form-group">
+        <label class="form-check">
+          <input type="checkbox" id="su-fifa">
+          <span class="form-check-label">I confirm I have read and understand FIFA's official ticketing terms and conditions.</span>
+        </label>
+      </div>
+      <button class="btn btn-cyan btn-block btn-lg mt-4" onclick="handleSignup()">
+        <span class="btn-dot"></span>Create My Account — Free
+      </button>
+      <div class="divider-label mt-4">Already have an account?</div>
+      <button class="btn btn-ghost btn-block" onclick="closeModal('modal-signup');openModal('modal-login')">Sign In Instead</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     MODAL: LOGIN
+     ════════════════════════════════ -->
+<div class="modal-overlay" id="modal-login">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Welcome Back</div>
+      <button class="modal-close" onclick="closeModal('modal-login')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" id="li-email" placeholder="marco@example.com" type="email">
+        <div class="form-error" id="li-email-err">Please enter your email</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="li-pass" placeholder="Your password" type="password">
+        <div class="form-error" id="li-pass-err">Please enter your password</div>
+      </div>
+      <button class="btn btn-cyan btn-block btn-lg mt-4" onclick="handleLogin()">
+        <span class="btn-dot"></span>Sign In
+      </button>
+      <div style="text-align:center;margin-top:14px">
+        <span style="font-size:.75rem;color:var(--cyan);cursor:pointer" onclick="toast('Password reset email sent!','success')">Forgot password?</span>
+      </div>
+      <div class="divider-label mt-4">New to SwapMatch?</div>
+      <button class="btn btn-ghost btn-block" onclick="closeModal('modal-login');openModal('modal-signup')">Create Free Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     MODAL: PROPOSAL SEND
+     ════════════════════════════════ -->
+<div class="modal-overlay" id="modal-proposal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Send Swap Proposal</div>
+      <button class="modal-close" onclick="closeModal('modal-proposal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="notice mb-6" style="padding:14px 18px">
+        <div>⚠️</div>
+        <div><p>By sending this proposal, you confirm no ticket ownership changes on SwapMatch. All actual transfers must happen through FIFA's official system.</p></div>
+      </div>
+      <div class="proposal-detail-grid">
+        <div class="card ticket-preview card-cyan">
+          <div class="tp-label"><span class="badge-dot" style="background:var(--cyan);box-shadow:0 0 6px var(--cyan)"></span>Your Ticket</div>
+          <div class="tp-match" id="prop-your-match">BRA v FRA</div>
+          <div class="tp-meta" id="prop-your-meta">16 Jun 2026 · NY/NJ · Cat. 2</div>
+        </div>
+        <div class="card ticket-preview card-magenta">
+          <div class="tp-label"><span class="badge-dot" style="background:var(--magenta);box-shadow:0 0 6px var(--magenta)"></span>Their Ticket</div>
+          <div class="tp-match" id="prop-their-match">ARG v ESP</div>
+          <div class="tp-meta" id="prop-their-meta">21 Jun 2026 · Miami · Cat. 2</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message to <span id="prop-to-name">User</span></label>
+        <textarea class="form-input" id="prop-message" rows="4" placeholder="Hi! I noticed your listing is a great match for mine. I have BRA v FRA (NY/NJ, Jun 16, Cat 2) and I'm looking for exactly what you're offering..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-check">
+          <input type="checkbox" id="prop-confirm">
+          <span class="form-check-label">I understand this is a proposal only. No tickets are transferred on this platform. I will complete any agreed swap exclusively through FIFA's official ticketing system.</span>
+        </label>
+      </div>
+      <button class="btn btn-cyan btn-block btn-lg mt-4" onclick="submitProposal()">
+        <span class="btn-dot"></span>Send Proposal
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     MODAL: FEEDBACK
+     ════════════════════════════════ -->
+<div class="modal-overlay" id="modal-feedback">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Leave Feedback</div>
+      <button class="modal-close" onclick="closeModal('modal-feedback')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="text-muted text-sm mb-6">Your feedback updates the other user's Trust Score and helps the community make better decisions.</p>
+      <div class="form-group">
+        <label class="form-label">Overall Rating</label>
+        <div class="star-rating" id="star-rating">
+          <span class="star" onclick="setStars(1)">★</span>
+          <span class="star" onclick="setStars(2)">★</span>
+          <span class="star" onclick="setStars(3)">★</span>
+          <span class="star" onclick="setStars(4)">★</span>
+          <span class="star" onclick="setStars(5)">★</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">How was the communication?</label>
+        <select class="form-input form-select">
+          <option>Excellent — Fast and clear</option>
+          <option>Good — Responsive</option>
+          <option>Average — Slow but okay</option>
+          <option>Poor — Difficult to reach</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Written Feedback</label>
+        <textarea class="form-input" rows="3" placeholder="Tell others about your experience..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Outcome</label>
+        <select class="form-input form-select">
+          <option>Swap completed successfully via FIFA</option>
+          <option>Proposal accepted, waiting for FIFA transfer</option>
+          <option>Could not complete — ticket type not eligible</option>
+          <option>Swap cancelled by mutual agreement</option>
+        </select>
+      </div>
+      <button class="btn btn-cyan btn-block btn-lg mt-4" onclick="submitFeedback()">
+        <span class="btn-dot"></span>Submit Feedback
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     MODAL: FIFA GUIDANCE
+     ════════════════════════════════ -->
+<div class="modal-overlay" id="modal-guidance">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-header">
+      <div class="modal-title">Official FIFA Transfer Guide</div>
+      <button class="modal-close" onclick="closeModal('modal-guidance')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="notice mb-6">
+        <div>⚠️</div>
+        <div>
+          <div class="notice-label">SwapMatch Platform Notice</div>
+          <p>SwapMatch does not process, transfer, or execute any ticket exchange. The following guide directs you to complete the transfer exclusively through FIFA's official ticketing system. All actions are your sole responsibility.</p>
+        </div>
+      </div>
+      <div class="flow-list">
+        <div class="flow-step" style="padding:20px 0">
+          <div class="flow-num" style="color:rgba(0,229,255,.25)">01</div>
+          <div>
+            <div class="flow-title" style="font-size:1.1rem">Log in to FIFA Ticketing</div>
+            <div class="flow-text">Visit <span class="text-cyan">tickets.fifa.com</span> and sign in with the account that holds your tickets. Use the same credentials you used during the original ticket purchase.</div>
+          </div>
+        </div>
+        <div class="flow-step" style="padding:20px 0">
+          <div class="flow-num" style="color:rgba(0,229,255,.25)">02</div>
+          <div>
+            <div class="flow-title" style="font-size:1.1rem">Navigate to "My Tickets"</div>
+            <div class="flow-text">Find the ticket you want to transfer. Check that it shows a "Transfer Eligible" status — not all ticket types can be transferred. Guest tickets and certain categories may not qualify.</div>
+          </div>
+        </div>
+        <div class="flow-step" style="padding:20px 0">
+          <div class="flow-num" style="color:rgba(0,229,255,.25)">03</div>
+          <div>
+            <div class="flow-title" style="font-size:1.1rem">Initiate the Transfer</div>
+            <div class="flow-text">Select "Transfer Ticket" and enter the recipient's FIFA account email. Both parties must have active FIFA Ticketing accounts. The transfer cannot be completed without this.</div>
+          </div>
+        </div>
+        <div class="flow-step" style="padding:20px 0">
+          <div class="flow-num" style="color:rgba(0,229,255,.25)">04</div>
+          <div>
+            <div class="flow-title" style="font-size:1.1rem">Recipient Accepts</div>
+            <div class="flow-text">The other party receives an email from FIFA and must log in and accept the transfer within the deadline specified. Once accepted, the ticket appears in their account.</div>
+          </div>
+        </div>
+        <div class="flow-step" style="padding:20px 0;border-bottom:none">
+          <div class="flow-num" style="color:rgba(0,229,255,.25)">05</div>
+          <div>
+            <div class="flow-title" style="font-size:1.1rem">Mark Complete on SwapMatch</div>
+            <div class="flow-text">Return to SwapMatch and update your proposal status to "Completed via FIFA." Both parties can then leave feedback to update Trust Scores.</div>
+            <span class="tag tag-a" style="margin-top:10px">Leave feedback</span>
+          </div>
+        </div>
+      </div>
+      <div class="notice mt-6" style="padding:14px 18px">
+        <div>⚠️</div>
+        <div><p>Screenshots, PDFs, and barcode images are <strong>not</strong> valid proof of ticket ownership. Never share these. Only an official FIFA transfer constitutes a valid exchange.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     PAGE: LANDING
+     ════════════════════════════════════════════════ -->
+<div class="page active" id="page-landing">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="fade-in">
+      <div class="meta-pill"><span class="meta-pill-dot"></span>Initiate Match Sequence</div>
+      <h1 class="hero-headline">
+        You Have<br>The Ticket.<br>
+        <span style="-webkit-text-stroke:1.5px var(--white);color:transparent">Just Not The <span style="color:var(--magenta);-webkit-text-stroke:0;text-shadow:0 0 35px var(--magenta-glow)">Right One.</span></span>
+      </h1>
+      <p class="hero-sub">SwapMatch connects FIFA World Cup 2026 fans who want to trade tickets with compatible swap partners — safely, transparently, and entirely at your own responsibility.</p>
+      <p class="hero-sub">No payments. No transfers. No FIFA affiliation. <strong>Just the right match, for the right match.</strong></p>
+      <p class="hero-disclaimer">SwapMatch is an independent matching platform. All ticket transfers must be completed through the official FIFA ticketing system. We are not affiliated with FIFA in any way.</p>
+      <div class="cta-row">
+        <button class="btn btn-cyan btn-lg btn-fill-cyan" onclick="requireAuth(()=>showPage('list-ticket'))">
+          <span class="btn-dot"></span>Find My Swap Partner — It's Free
+        </button>
+        <button class="btn btn-ghost" onclick="showPage('browse')">
+          Browse Available Swaps
+        </button>
+      </div>
+    </div>
+    <div class="hero-right fade-in fade-in-d2">
+      <div class="graphic-wrap">
+        <div class="radar radar-3"></div>
+        <div class="radar radar-2"></div>
+        <div class="radar radar-1"></div>
+        <div class="match-line"></div>
+        <div class="ticket-card t-have">
+          <div class="t-top"><span class="t-id">SEC: 114 // ROW: G</span><span class="badge badge-cyan">Held Ticket</span></div>
+          <div class="t-bottom"><div><div class="t-date">16 JUN 2026 // NY/NJ</div><div class="t-name">BRA v FRA</div></div><div class="t-barcode-c"></div></div>
+        </div>
+        <div class="ticket-card t-want">
+          <div class="t-top"><span class="t-id">TARGET: 100-LEVEL</span><span class="badge badge-magenta">Searching</span></div>
+          <div class="t-bottom"><div><div class="t-date">21 JUN 2026 // MIAMI</div><div class="t-name">ARG v ESP</div></div><div class="t-barcode-m"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROBLEMS -->
+  <section id="problems" style="position:relative;z-index:5;padding:80px var(--px)">
+    <div class="section-label">Situation Analysis</div>
+    <h2 class="section-headline fade-in">You're Not Alone.<br>
+      <span class="hl-stroke" style="font-size:.55em;display:block;margin-top:10px;line-height:1.3">3 Situations Most Fans Are <span class="hl-cyan">Stuck In</span> Right Now.</span>
+    </h2>
+    <div class="problems-grid">
+      <div class="card card-cyan p-card fade-in fade-in-d1">
+        <div class="p-num">Problem 01</div>
+        <h3 class="p-quote">"I have tickets — just for the wrong city."</h3>
+        <div class="p-text"><p>You locked in your tickets during the FIFA lottery back in 2024.</p><p>Now your flights are booked for Dallas, but your tickets are for Seattle.</p><p>Changing plans costs thousands. Selling on grey-market sites risks a ban.</p><p>There's no obvious, safe middle ground.</p></div>
+      </div>
+      <div class="card card-magenta p-card fade-in fade-in-d2">
+        <div class="p-num">Problem 02</div>
+        <h3 class="p-quote">"I can't find a swap partner I actually trust."</h3>
+        <div class="p-text"><p>You've scrolled through Reddit threads and Facebook groups for weeks.</p><p>Everyone says "DM me" — but there's no verification, no track record, no way to know if the person on the other side is real.</p><p><strong>73% of fans</strong> in peer surveys said they abandoned an informal swap because they didn't trust the counterpart.</p></div>
+      </div>
+      <div class="card card-cyan p-card fade-in fade-in-d3">
+        <div class="p-num">Problem 03</div>
+        <h3 class="p-quote">"I don't know what's actually allowed under FIFA's rules."</h3>
+        <div class="p-text"><p>Can you transfer your ticket? Swap it? Sell it?</p><p>The rules differ by ticket type, account type, and region — and getting it wrong could mean your ticket is voided at the gate.</p><p>Most fans spend hours searching official FIFA FAQs and still leave uncertain.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SERVICES -->
+  <section id="services" style="position:relative;z-index:5;padding:80px var(--px)">
+    <div class="section-label">Platform Capabilities</div>
+    <h2 class="section-headline fade-in">Three Things SwapMatch Does<br>
+      <span class="hl-stroke" style="font-size:.55em;display:block;margin-top:10px;line-height:1.3">That No One Else Does — <span class="hl-magenta">Together.</span></span>
+    </h2>
+    <div class="problems-grid">
+      <div class="card card-cyan p-card fade-in fade-in-d1">
+        <div class="p-num">Service 01</div>
+        <h3 class="p-quote" style="font-size:1.5rem">Compatibility Matching Engine</h3>
+        <div class="p-text"><p style="color:var(--white);font-weight:500">You tell us the ticket you have and the ticket you want.</p><p>Our algorithm finds users with the reverse preference — and ranks them by swap fairness, seat category alignment, and mutual match preference score.</p></div>
+      </div>
+      <div class="card card-magenta p-card fade-in fade-in-d2">
+        <div class="p-num">Service 02</div>
+        <h3 class="p-quote" style="font-size:1.5rem">User Trust Score System</h3>
+        <div class="p-text"><p style="color:var(--white);font-weight:500;margin-bottom:10px">Every user on SwapMatch has a visible Trust Score built from:</p>
+          <ul style="list-style:none;margin-bottom:12px">
+            <li style="padding-left:16px;position:relative;margin-bottom:6px;font-size:.88rem"><span style="position:absolute;left:0;color:var(--magenta)">›</span>Profile completeness</li>
+            <li style="padding-left:16px;position:relative;margin-bottom:6px;font-size:.88rem"><span style="position:absolute;left:0;color:var(--magenta)">›</span>Verified identity</li>
+            <li style="padding-left:16px;position:relative;margin-bottom:6px;font-size:.88rem"><span style="position:absolute;left:0;color:var(--magenta)">›</span>Response rate</li>
+            <li style="padding-left:16px;position:relative;margin-bottom:6px;font-size:.88rem"><span style="position:absolute;left:0;color:var(--magenta)">›</span>Past swap history</li>
+            <li style="padding-left:16px;position:relative;margin-bottom:6px;font-size:.88rem"><span style="position:absolute;left:0;color:var(--magenta)">›</span>Community feedback</li>
+          </ul>
+          <p>You can filter listings to only show users above a score threshold.</p></div>
+      </div>
+      <div class="card card-cyan p-card fade-in fade-in-d3">
+        <div class="p-num">Service 03</div>
+        <h3 class="p-quote" style="font-size:1.5rem">Official FIFA Completion Guidance</h3>
+        <div class="p-text"><p style="color:var(--white);font-weight:500">Once both users agree on a swap, SwapMatch walks you through exactly how to complete the transfer through the official FIFA system — step by step.</p><p class="text-cyan" style="font-weight:500;margin-top:12px">No internal payments. No ticket file sharing. No shortcuts.</p></div>
+      </div>
+    </div>
+    <div class="notice" style="margin-top:40px">
+      <div style="font-size:1.3rem">⚠️</div>
+      <div><div class="notice-label">Important Notice</div><p>SwapMatch does not process payments, transfer tickets, or execute any exchange on your behalf. All actual ticket actions are your sole responsibility and must be completed through FIFA's official system.</p></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- TRUST SCORE FEATURE -->
+  <section style="position:relative;z-index:5;padding:80px var(--px);background:linear-gradient(135deg,rgba(0,229,255,.03) 0%,transparent 60%)">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center">
+      <div class="fade-in">
+        <div class="section-label">Safety Infrastructure</div>
+        <h2 class="section-headline" style="margin-bottom:22px">Know Who<br><span class="hl-stroke">You're Dealing <span class="hl-cyan">With.</span></span></h2>
+        <p style="font-size:.98rem;color:var(--muted);line-height:1.8;font-weight:300;max-width:460px;margin-bottom:20px">Every SwapMatch user has a publicly visible Trust Score — a composite metric built from multiple verification signals. Higher scores mean safer swaps.</p>
+        <p style="font-size:.84rem;color:var(--muted);line-height:1.7;font-weight:300;max-width:440px">Filter all listings to only show users above a trust threshold. Newly created and low-trust accounts are clearly flagged with warning indicators.</p>
+      </div>
+      <div class="fade-in fade-in-d2">
+        <div class="card score-card-demo">
+          <div class="score-user">
+            <div class="score-avatar">M</div>
+            <div><div class="score-name">Marco S.</div><div class="score-sub">Berlin, Germany · Jan 2026</div></div>
+            <div style="margin-left:auto;text-align:center"><div class="trust-num">94<span>Trust Score</span></div></div>
+          </div>
+          <div class="bar-item"><div class="bar-label">Profile Complete</div><div class="bar-track"><div class="bar-fill" style="width:98%"></div></div><div class="bar-val">98%</div></div>
+          <div class="bar-item"><div class="bar-label">Identity Verified</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="bar-val">✓</div></div>
+          <div class="bar-item"><div class="bar-label">Response Rate</div><div class="bar-track"><div class="bar-fill" style="width:91%"></div></div><div class="bar-val">91%</div></div>
+          <div class="bar-item"><div class="bar-label">Past Swaps</div><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div><div class="bar-val">4 swaps</div></div>
+          <div class="bar-item"><div class="bar-label">Community</div><div class="bar-track"><div class="bar-fill" style="width:95%"></div></div><div class="bar-val">95%</div></div>
+          <div style="margin-top:18px;display:flex;gap:8px">
+            <span class="badge badge-cyan"><span class="badge-dot"></span>ID Verified</span>
+            <span class="badge badge-green"><span class="badge-dot"></span>Phone Verified</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- HOW IT WORKS -->
+  <section id="how-it-works" style="position:relative;z-index:5;padding:80px var(--px)">
+    <div class="section-label">User Flow</div>
+    <h2 class="section-headline fade-in">How SwapMatch<br><span class="hl-stroke">Works — <span class="hl-cyan">End to End.</span></span></h2>
+    <div class="flow-list">
+      <div class="flow-step fade-in"><div class="flow-num" style="color:rgba(0,229,255,.22)">01</div><div><div class="flow-title">Account Creation & Verification</div><div class="flow-text">Sign up, verify your email and phone, and complete identity onboarding. Verified accounts are listed first and earn a higher base Trust Score.</div><span class="tag tag-c">Trust Building</span></div></div>
+      <div class="flow-step fade-in"><div class="flow-num" style="color:rgba(255,0,85,.18)">02</div><div><div class="flow-title">List the Ticket You Have</div><div class="flow-text">Enter your match, city, date, seat category, quantity, and ticket type. Confirm primary ownership and acknowledge legal terms.</div><span class="tag tag-m">Ticket Listing</span></div></div>
+      <div class="flow-step fade-in"><div class="flow-num" style="color:rgba(0,229,255,.22)">03</div><div><div class="flow-title">State the Ticket You Want</div><div class="flow-text">Input your preferred match, city, date, and category. Set flexible preferences — our engine handles near-matches too.</div><span class="tag tag-c">Desired Ticket</span></div></div>
+      <div class="flow-step fade-in"><div class="flow-num" style="color:rgba(255,0,85,.18)">04</div><div><div class="flow-title">Compatibility Matching Engine</div><div class="flow-text">Our algorithm pairs users by reciprocal preferences, showing compatibility percentages, swap fairness indicators, and Trust Score rankings.</div><span class="tag tag-m">Algorithm Active</span></div></div>
+      <div class="flow-step fade-in"><div class="flow-num" style="color:rgba(0,229,255,.22)">05</div><div><div class="flow-title">Review Trust Scores & Send a Proposal</div><div class="flow-text">Browse filtered listings. Review full profiles. Send or receive swap proposals. No ticket ownership changes on SwapMatch — ever.</div><span class="tag tag-c">Proposal Stage</span></div></div>
+      <div class="flow-step fade-in"><div class="flow-num" style="color:rgba(255,0,85,.18)">06</div><div><div class="flow-title">Complete via FIFA's Official System</div><div class="flow-text">Once agreed, SwapMatch guides you to complete the transfer on FIFA's official platform with step-by-step instructions. No internal payment, no barcode sharing.</div><span class="tag tag-a">⚠ FIFA System Required</span></div></div>
+      <div class="flow-step fade-in" style="border-bottom:none"><div class="flow-num" style="color:rgba(0,229,255,.22)">07</div><div><div class="flow-title">Confirm & Leave Feedback</div><div class="flow-text">Mark your progress and leave feedback. Trust Scores update. Suspicious activity can be reported. The community stays safe.</div><span class="tag tag-c">Reputation Update</span></div></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FINAL CTA -->
+  <section style="position:relative;z-index:5;padding:80px var(--px)">
+    <div class="section-label">Start Now</div>
+    <h2 class="section-headline fade-in">The Match You Want<br><span class="hl-stroke">Is Out There. So Is<br><span class="hl-cyan">The Fan Who Has It.</span></span></h2>
+    <p style="font-size:1.05rem;color:var(--muted);line-height:1.8;font-weight:300;max-width:680px;margin-bottom:50px">Right now, thousands of fans around the world are holding the exact ticket you want — and want the exact ticket you have. The only missing piece is a structured, transparent way to find each other. <strong style="color:var(--white)">That's what SwapMatch is for.</strong></p>
+    <div class="card card-magenta" style="max-width:760px;padding:36px;margin-bottom:44px">
+      <div style="font-family:var(--font-display);font-size:1.5rem;color:var(--magenta);margin-bottom:26px">That's what SwapMatch is for.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div><div class="tag tag-c" style="margin-bottom:8px">Step 01</div><p style="font-size:.92rem;line-height:1.55">List your ticket. State what you want.</p></div>
+        <div><div class="tag tag-c" style="margin-bottom:8px">Step 02</div><p style="font-size:.92rem;line-height:1.55">Let the matching engine do the searching.</p></div>
+        <div><div class="tag tag-c" style="margin-bottom:8px">Step 03</div><p style="font-size:.92rem;line-height:1.55">Review Trust Scores. Send a proposal.</p></div>
+        <div><div class="tag tag-c" style="margin-bottom:8px">Step 04</div><p style="font-size:.92rem;line-height:1.55">Complete everything through FIFA's own system.</p></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-bottom:36px">
+      <p style="font-family:var(--font-display);font-size:1.7rem;margin-bottom:8px">Start free. No payment required to list or browse.</p>
+      <p style="color:var(--muted);font-weight:300">Your swap partner might already be waiting.</p>
+    </div>
+    <div style="display:flex;gap:18px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-cyan btn-lg btn-fill-cyan" onclick="requireAuth(()=>showPage('list-ticket'))"><span class="btn-dot"></span>List My Ticket — Start Free</button>
+      <button class="btn btn-magenta btn-lg" onclick="showPage('browse')"><span class="btn-dot" style="background:var(--magenta);box-shadow:0 0 8px var(--magenta)"></span>Browse Available Swaps</button>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- LEGAL -->
+  <section style="position:relative;z-index:5;padding:50px var(--px)">
+    <div style="max-width:860px;margin:0 auto;border:1px solid rgba(255,193,7,.22);border-left:3px solid var(--amber);border-radius:12px;padding:40px 44px;background:rgba(255,193,7,.04)">
+      <div style="display:flex;gap:20px;align-items:flex-start">
+        <div style="font-size:1.7rem;flex-shrink:0;line-height:1.3">⚠️</div>
+        <div>
+          <div class="notice-label">Legal Disclaimer</div>
+          <p style="font-size:.85rem;color:rgba(255,255,255,.72);line-height:1.85;font-weight:300">SwapMatch is an independent platform and is not affiliated with, endorsed by, or officially connected to FIFA or any official World Cup organizing body. All ticket transfers, exchanges, and related actions are the sole responsibility of the users involved and must be completed exclusively through the official FIFA ticketing system. SwapMatch does not guarantee ticket validity, transfer success, legal protection, or any specific outcome. Use this platform at your own risk and in full compliance with FIFA's ticketing terms and all applicable laws.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Swap<span>Match</span></div>
+    <div class="footer-text">Independent fan-to-fan matching platform. Not affiliated with, endorsed by, or sponsored by FIFA or the 2026 World Cup organizing committee. All exchanges at users' own risk.</div>
+    <div class="footer-links">
+      <a onclick="openModal('modal-guidance')">How It Works</a>
+      <a onclick="showPage('browse')">Browse</a>
+      <a onclick="openModal('modal-login')">Sign In</a>
+    </div>
+  </footer>
+</div><!-- /page-landing -->
+
+<!-- ════════════════════════════════════════════════
+     PAGE: BROWSE SWAPS
+     ════════════════════════════════════════════════ -->
+<div class="page" id="page-browse">
+  <div class="page-inner">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:10px">
+      <div>
+        <div class="section-label">Live Exchange Network</div>
+        <h1 class="page-title">Browse<br><span class="hl-stroke">Available <span class="hl-cyan">Swaps</span></span></h1>
+      </div>
+      <button class="btn btn-cyan" onclick="requireAuth(()=>showPage('list-ticket'))"><span class="btn-dot"></span>List My Ticket</button>
+    </div>
+    <p class="page-sub">All listings are from verified SwapMatch users. Compatibility is calculated against your own listing. Filter by trust score for safer matches.</p>
+
+    <div class="filters-bar">
+      <select class="filter-select" id="f-city" onchange="filterListings()">
+        <option value="">All Cities</option>
+        <option>New York/NJ</option><option>Los Angeles</option><option>Miami</option>
+        <option>Dallas</option><option>Seattle</option><option>Atlanta</option>
+        <option>Boston</option><option>San Francisco</option><option>Kansas City</option>
+        <option>Houston</option><option>Toronto</option><option>Guadalajara</option>
+        <option>Mexico City</option><option>Monterrey</option>
+      </select>
+      <select class="filter-select" id="f-cat" onchange="filterListings()">
+        <option value="">All Categories</option>
+        <option>Category 1</option><option>Category 2</option><option>Category 3</option><option>Category 4</option>
+      </select>
+      <select class="filter-select" id="f-match" onchange="filterListings()">
+        <option value="">All Matches</option>
+        <option>BRA v FRA</option><option>ARG v ESP</option><option>GER v ENG</option>
+        <option>USA v MEX</option><option>POR v ITA</option><option>NED v BEL</option>
+        <option>Group Stage</option><option>Round of 16</option><option>Quarter-Final</option>
+        <option>Semi-Final</option><option>Final</option>
+      </select>
+      <div class="trust-filter">
+        <label>Min Trust: <span id="trust-val">70</span></label>
+        <input type="range" class="trust-slider" min="0" max="100" value="70" id="trust-range" oninput="document.getElementById('trust-val').textContent=this.value;filterListings()">
+      </div>
+    </div>
+
+    <div class="listings-grid" id="listings-grid"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     PAGE: LIST MY TICKET (Multi-step form)
+     ════════════════════════════════════════════════ -->
+<div class="page" id="page-list-ticket">
+  <div class="page-inner">
+    <div class="list-ticket-wrap">
+      <div class="section-label">Ticket Listing</div>
+      <h1 class="page-title" style="margin-bottom:30px">List Your<br><span class="hl-stroke">Ticket <span class="hl-cyan">for Swap</span></span></h1>
+
+      <!-- Step indicator -->
+      <div class="step-indicator" id="step-indicator">
+        <div class="step-ind-item"><div class="step-ind-dot current" id="si-1">1</div><div class="step-ind-line" id="sl-1"></div></div>
+        <div class="step-ind-item"><div class="step-ind-dot" id="si-2">2</div><div class="step-ind-line" id="sl-2"></div></div>
+        <div class="step-ind-item"><div class="step-ind-dot" id="si-3">3</div><div class="step-ind-line" id="sl-3"></div></div>
+        <div class="step-ind-item"><div class="step-ind-dot" id="si-4">4</div></div>
+      </div>
+
+      <!-- Step 1: Ticket I Have -->
+      <div class="step-form active" id="step-1">
+        <div class="step-heading">Ticket I Have</div>
+        <p class="step-sub">Tell us about the ticket you're offering for swap.</p>
+        <div class="form-group"><label class="form-label">Match *</label>
+          <select class="form-input form-select" id="have-match">
+            <option value="">Select a match</option>
+            <option>BRA v FRA — Jun 16, NY/NJ</option><option>ARG v ESP — Jun 21, Miami</option>
+            <option>GER v ENG — Jun 18, Los Angeles</option><option>USA v MEX — Jun 22, Dallas</option>
+            <option>POR v ITA — Jun 19, Boston</option><option>NED v BEL — Jun 17, Atlanta</option>
+            <option>Group Stage Match — Jun 14, Seattle</option><option>Group Stage Match — Jun 15, Houston</option>
+            <option>Round of 16 — Jul 5, Kansas City</option><option>Quarter-Final — Jul 9, San Francisco</option>
+            <option>Semi-Final — Jul 15, Atlanta</option><option>Final — Jul 19, MetLife Stadium</option>
+          </select>
+          <div class="form-error" id="e-have-match">Please select a match</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Seat Category *</label>
+            <select class="form-input form-select" id="have-cat">
+              <option value="">Select category</option>
+              <option>Category 1 (Best seats)</option><option>Category 2</option>
+              <option>Category 3</option><option>Category 4 (Economy)</option>
+            </select></div>
+          <div class="form-group"><label class="form-label">Quantity *</label>
+            <select class="form-input form-select" id="have-qty">
+              <option value="">Qty</option><option>1</option><option>2</option><option>3</option><option>4</option>
+            </select></div>
+        </div>
+        <div class="form-group"><label class="form-label">Ticket Type *</label>
+          <select class="form-input form-select" id="have-type">
+            <option value="">Select type</option>
+            <option>Standard (Transferable)</option><option>Guest Ticket (may not be transferable)</option>
+            <option>Hospitality Package</option><option>Accessibility Ticket</option>
+          </select>
+          <div class="form-hint">⚠ Guest tickets may not be eligible for transfer. Please check FIFA's official policies.</div>
+        </div>
+        <div class="form-group"><label class="form-label">Section / Row (optional)</label>
+          <input class="form-input" id="have-section" placeholder="e.g. Section 114, Row G"></div>
+        <div class="form-group mt-4">
+          <label class="form-check"><input type="checkbox" id="have-owner">
+            <span class="form-check-label">I confirm I am the primary registered owner of this ticket in my FIFA account.</span>
+          </label>
+          <div class="form-error" id="e-have-owner">You must confirm primary ownership</div>
+        </div>
+        <div class="flex gap-3 mt-6">
+          <button class="btn btn-ghost" onclick="showPage('landing')">Cancel</button>
+          <button class="btn btn-cyan" onclick="goToStep(2)"><span class="btn-dot"></span>Next: Ticket I Want →</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Ticket I Want -->
+      <div class="step-form" id="step-2">
+        <div class="step-heading">Ticket I Want</div>
+        <p class="step-sub">Tell us what you're looking for in exchange.</p>
+        <div class="form-group"><label class="form-label">Preferred Match *</label>
+          <select class="form-input form-select" id="want-match">
+            <option value="">Select preferred match</option>
+            <option>BRA v FRA — Jun 16, NY/NJ</option><option>ARG v ESP — Jun 21, Miami</option>
+            <option>GER v ENG — Jun 18, Los Angeles</option><option>USA v MEX — Jun 22, Dallas</option>
+            <option>POR v ITA — Jun 19, Boston</option><option>NED v BEL — Jun 17, Atlanta</option>
+            <option>Group Stage Match — Jun 14, Seattle</option><option>Group Stage Match — Jun 15, Houston</option>
+            <option>Round of 16 — Jul 5, Kansas City</option><option>Quarter-Final — Jul 9, San Francisco</option>
+            <option>Semi-Final — Jul 15, Atlanta</option><option>Final — Jul 19, MetLife Stadium</option>
+          </select>
+          <div class="form-error" id="e-want-match">Please select a preferred match</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Preferred Category</label>
+            <select class="form-input form-select" id="want-cat">
+              <option value="">Any category</option>
+              <option>Category 1</option><option>Category 2</option><option>Category 3</option><option>Category 4</option>
+            </select></div>
+          <div class="form-group"><label class="form-label">Quantity Needed</label>
+            <select class="form-input form-select" id="want-qty">
+              <option value="">Any</option><option>1</option><option>2</option><option>3</option><option>4</option>
+            </select></div>
+        </div>
+        <div class="form-group"><label class="form-label">Flexibility</label>
+          <select class="form-input form-select" id="want-flex">
+            <option>Exact match only</option>
+            <option>Open to same round (e.g. any Group Stage match)</option>
+            <option>Open to similar city / stadium</option>
+            <option>Flexible — show me good matches</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Additional Notes (optional)</label>
+          <textarea class="form-input" id="want-notes" rows="3" placeholder="e.g. Happy to consider any South American team match in the Miami region..."></textarea>
+        </div>
+        <div class="flex gap-3 mt-6">
+          <button class="btn btn-ghost" onclick="goToStep(1)">← Back</button>
+          <button class="btn btn-cyan" onclick="goToStep(3)"><span class="btn-dot"></span>Next: Review →</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Review & Legal -->
+      <div class="step-form" id="step-3">
+        <div class="step-heading">Review & Legal</div>
+        <p class="step-sub">Review your listing and confirm the terms before submitting.</p>
+        <div class="card card-cyan" style="padding:24px;margin-bottom:22px">
+          <div style="font-family:var(--font-ui);font-size:.6rem;color:var(--cyan);letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px">Ticket You're Offering</div>
+          <div id="review-have" style="font-size:.92rem;line-height:1.8"></div>
+        </div>
+        <div class="card card-magenta" style="padding:24px;margin-bottom:28px">
+          <div style="font-family:var(--font-ui);font-size:.6rem;color:var(--magenta);letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px">Ticket You're Seeking</div>
+          <div id="review-want" style="font-size:.92rem;line-height:1.8"></div>
+        </div>
+        <div class="notice mb-6">
+          <div>⚠️</div>
+          <div><div class="notice-label">Legal Terms</div>
+            <p>SwapMatch is a matching platform only. No ticket transfer, payment, or exchange occurs on this platform. All actual transfers must be completed exclusively through FIFA's official ticketing system. You are fully responsible for all decisions and outcomes.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-check"><input type="checkbox" id="legal-1">
+            <span class="form-check-label">I confirm I am the primary owner of the ticket listed and have the right to initiate a transfer through FIFA's official system.</span>
+          </label></div>
+        <div class="form-group">
+          <label class="form-check"><input type="checkbox" id="legal-2">
+            <span class="form-check-label">I understand this listing does not constitute a legal agreement, a sale, or a transfer of any ticket. All actual exchanges must occur through FIFA only.</span>
+          </label></div>
+        <div class="form-group">
+          <label class="form-check"><input type="checkbox" id="legal-3">
+            <span class="form-check-label">I accept full responsibility for all my decisions, communications, and any outcomes from using SwapMatch. I use this platform entirely at my own risk.</span>
+          </label></div>
+        <div class="form-group">
+          <label class="form-check"><input type="checkbox" id="legal-4">
+            <span class="form-check-label">I will not share ticket barcodes, PDFs, or screenshots with any other user. I will comply with FIFA's ticketing rules and all applicable laws.</span>
+          </label>
+          <div class="form-error" id="e-legal">Please accept all terms to continue</div>
+        </div>
+        <div class="flex gap-3 mt-6">
+          <button class="btn btn-ghost" onclick="goToStep(2)">← Back</button>
+          <button class="btn btn-cyan" onclick="submitListing()"><span class="btn-dot"></span>Submit Listing</button>
+        </div>
+      </div>
+
+      <!-- Step 4: Success -->
+      <div class="step-form" id="step-4">
+        <div style="text-align:center;padding:40px 0">
+          <div style="font-size:3.5rem;margin-bottom:20px">✅</div>
+          <h2 style="font-family:var(--font-display);font-size:2.5rem;color:var(--green);text-shadow:0 0 24px var(--green-glow);margin-bottom:12px">Listing Live!</h2>
+          <p style="color:var(--muted);font-weight:300;margin-bottom:36px;font-size:1rem">Your ticket is now searchable by other fans. We'll notify you when you get a compatibility match.</p>
+          <div class="card card-green" style="padding:24px;margin-bottom:36px;text-align:left">
+            <div style="font-family:var(--font-ui);font-size:.6rem;color:var(--green);letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px">What Happens Next</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:10px">
+              <li style="font-size:.88rem;color:var(--muted);display:flex;gap:10px"><span class="text-green">›</span>Compatible matches are ranked by swap fairness and Trust Score</li>
+              <li style="font-size:.88rem;color:var(--muted);display:flex;gap:10px"><span class="text-green">›</span>You can browse and send proposals to matches you find</li>
+              <li style="font-size:.88rem;color:var(--muted);display:flex;gap:10px"><span class="text-green">›</span>Once both parties agree, follow FIFA's official transfer process</li>
+              <li style="font-size:.88rem;color:var(--muted);display:flex;gap:10px"><span class="text-green">›</span>Mark as complete and leave feedback to boost Trust Scores</li>
+            </ul>
+          </div>
+          <div class="flex gap-3" style="justify-content:center;flex-wrap:wrap">
+            <button class="btn btn-cyan btn-lg" onclick="showPage('browse')"><span class="btn-dot"></span>Browse Matching Swaps</button>
+            <button class="btn btn-ghost" onclick="showPage('dashboard')">Go to My Dashboard</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     PAGE: DASHBOARD
+     ════════════════════════════════════════════════ -->
+<div class="page" id="page-dashboard">
+  <div class="page-inner">
+    <div class="section-label">My Account</div>
+    <h1 class="page-title" style="margin-bottom:30px">My <span class="hl-cyan">Dashboard</span></h1>
+    <div class="dashboard-grid">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="card sidebar-card">
+          <div class="profile-header">
+            <div class="profile-avatar" id="dash-avatar">M</div>
+            <div class="profile-name" id="dash-name">Marco Silva</div>
+            <div class="profile-since">Member since Jan 2026</div>
+          </div>
+          <div class="trust-big" id="dash-trust">87</div>
+          <div class="trust-big-label">Trust Score</div>
+          <div class="sidebar-divider"></div>
+          <div class="sidebar-stat"><span class="sidebar-stat-label">Active Listings</span><span class="sidebar-stat-val" id="stat-listings">1</span></div>
+          <div class="sidebar-stat"><span class="sidebar-stat-label">Proposals Sent</span><span class="sidebar-stat-val">3</span></div>
+          <div class="sidebar-stat"><span class="sidebar-stat-label">Proposals Received</span><span class="sidebar-stat-val" id="stat-received">2</span></div>
+          <div class="sidebar-stat"><span class="sidebar-stat-label">Swaps Completed</span><span class="sidebar-stat-val">0</span></div>
+          <div class="sidebar-divider"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span class="badge badge-cyan"><span class="badge-dot"></span>Email Verified</span>
+            <span class="badge badge-amber"><span class="badge-dot"></span>Phone Pending</span>
+          </div>
+          <button class="btn btn-ghost btn-sm btn-block mt-4" onclick="toast('Phone verification sent!','info')">Verify Phone ›</button>
+        </div>
+        <div class="card sidebar-card">
+          <div style="font-family:var(--font-ui);font-size:.6rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px">Navigation</div>
+          <div class="sidebar-nav">
+            <div class="sidebar-nav-item active" onclick="setDashTab('overview')"><span class="nav-icon">📊</span>Overview</div>
+            <div class="sidebar-nav-item" onclick="setDashTab('my-listing')"><span class="nav-icon">🎫</span>My Listing</div>
+            <div class="sidebar-nav-item" onclick="setDashTab('proposals')"><span class="nav-icon">📨</span>Proposals</div>
+            <div class="sidebar-nav-item" onclick="setDashTab('matches')"><span class="nav-icon">🔍</span>My Matches</div>
+            <div class="sidebar-nav-item" onclick="showPage('list-ticket')"><span class="nav-icon">➕</span>Add Listing</div>
+            <div class="sidebar-nav-item" onclick="handleLogout()"><span class="nav-icon">🚪</span>Sign Out</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="main-content">
+
+        <!-- Overview -->
+        <div id="dash-tab-overview">
+          <div class="card section-card">
+            <div class="sc-header"><div class="sc-title">My Listing</div><button class="btn btn-ghost btn-sm" onclick="setDashTab('my-listing')">View All</button></div>
+            <div id="dash-listing-preview"></div>
+          </div>
+          <div class="card section-card">
+            <div class="sc-header"><div class="sc-title">Incoming Proposals</div><span class="badge badge-magenta"><span class="badge-dot"></span><span id="proposal-count">2</span> new</span></div>
+            <div class="proposal-list" id="dash-proposals-preview"></div>
+          </div>
+          <div class="card section-card">
+            <div class="sc-header"><div class="sc-title">Trust Score Breakdown</div></div>
+            <div class="bar-item"><div class="bar-label">Profile Completeness</div><div class="bar-track"><div class="bar-fill" id="db-1" style="width:72%"></div></div><div class="bar-val">72%</div></div>
+            <div class="bar-item mt-4"><div class="bar-label">Identity Verified</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="bar-val">✓</div></div>
+            <div class="bar-item mt-4"><div class="bar-label">Response Rate</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="bar-val">100%</div></div>
+            <div class="bar-item mt-4"><div class="bar-label">Past Swap History</div><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><div class="bar-val">0 swaps</div></div>
+            <div class="bar-item mt-4"><div class="bar-label">Community Feedback</div><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><div class="bar-val">No reviews yet</div></div>
+            <div class="notice mt-6" style="padding:14px 18px"><div>💡</div><div><p>Verify your phone number to boost your Trust Score by 10 points and get listed higher in search results.</p></div></div>
+          </div>
+        </div>
+
+        <!-- My listing tab -->
+        <div id="dash-tab-my-listing" class="hidden">
+          <div class="card section-card">
+            <div class="sc-header"><div class="sc-title">My Ticket Listing</div>
+              <div class="flex gap-3">
+                <button class="btn btn-ghost btn-sm" onclick="toast('Listing paused','info')">Pause</button>
+                <button class="btn btn-magenta btn-sm" onclick="confirmDeleteListing()">Remove</button>
+              </div>
+            </div>
+            <div id="dash-full-listing"></div>
+          </div>
+        </div>
+
+        <!-- Proposals tab -->
+        <div id="dash-tab-proposals" class="hidden">
+          <div class="card section-card">
+            <div class="sc-header"><div class="sc-title">All Proposals</div></div>
+            <div class="proposal-list" id="dash-all-proposals"></div>
+          </div>
+        </div>
+
+        <!-- Matches tab -->
+        <div id="dash-tab-matches" class="hidden">
+          <div class="card section-card">
+            <div class="sc-header"><div class="sc-title">Compatible Matches</div><button class="btn btn-cyan btn-sm" onclick="showPage('browse')"><span class="btn-dot"></span>Browse All</button></div>
+            <div class="listings-grid" id="dash-matches-grid" style="margin-top:16px"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     PAGE: PROPOSAL DETAIL
+     ════════════════════════════════════════════════ -->
+<div class="page" id="page-proposal">
+  <div class="page-inner" style="max-width:860px">
+    <button class="btn btn-ghost btn-sm" style="margin-bottom:20px" onclick="showPage('dashboard')">← Back to Dashboard</button>
+    <div class="section-label">Swap Proposal</div>
+    <h1 class="page-title" style="margin-bottom:24px">Proposal <span class="hl-cyan">Detail</span></h1>
+    <div class="proposal-detail-grid">
+      <div class="card card-cyan ticket-preview">
+        <div class="tp-label"><span class="badge-dot" style="background:var(--cyan);box-shadow:0 0 6px var(--cyan)"></span>Your Ticket</div>
+        <div class="tp-match" id="pd-your-match">BRA v FRA</div>
+        <div class="tp-meta">16 Jun 2026 · NY/NJ · Cat. 2</div>
+      </div>
+      <div class="card card-magenta ticket-preview">
+        <div class="tp-label"><span class="badge-dot" style="background:var(--magenta);box-shadow:0 0 6px var(--magenta)"></span>Their Ticket</div>
+        <div class="tp-match" id="pd-their-match">ARG v ESP</div>
+        <div class="tp-meta" id="pd-their-meta">21 Jun 2026 · Miami · Cat. 2</div>
+      </div>
+    </div>
+
+    <!-- Status timeline -->
+    <div class="card" style="padding:24px;margin-bottom:24px">
+      <div style="font-family:var(--font-ui);font-size:.6rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px">Swap Progress</div>
+      <div style="display:flex;align-items:center;gap:0;margin-bottom:10px">
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+          <div class="status-dot done"></div>
+          <div style="font-size:.6rem;color:var(--cyan);margin-top:6px;text-align:center;font-family:var(--font-ui)">Proposal Sent</div>
+        </div>
+        <div class="status-line done"></div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+          <div class="status-dot current"></div>
+          <div style="font-size:.6rem;color:var(--amber);margin-top:6px;text-align:center;font-family:var(--font-ui)">Awaiting Reply</div>
+        </div>
+        <div class="status-line"></div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+          <div class="status-dot"></div>
+          <div style="font-size:.6rem;color:var(--muted);margin-top:6px;text-align:center;font-family:var(--font-ui)">Both Agreed</div>
+        </div>
+        <div class="status-line"></div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+          <div class="status-dot"></div>
+          <div style="font-size:.6rem;color:var(--muted);margin-top:6px;text-align:center;font-family:var(--font-ui)">FIFA Transfer</div>
+        </div>
+        <div class="status-line"></div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+          <div class="status-dot"></div>
+          <div style="font-size:.6rem;color:var(--muted);margin-top:6px;text-align:center;font-family:var(--font-ui)">Complete</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notice mb-6">
+      <div>⚠️</div>
+      <div><div class="notice-label">Reminder</div><p>No ticket is transferred on this platform. Once both parties agree, use FIFA's official system to complete the transfer. SwapMatch provides step-by-step guidance below.</p></div>
+    </div>
+
+    <div class="flex gap-3 flex-wrap">
+      <button class="btn btn-cyan" onclick="openModal('modal-guidance')"><span class="btn-dot"></span>View FIFA Transfer Guide</button>
+      <button class="btn btn-green" onclick="markComplete()" style="border-color:var(--green)"><span class="btn-dot" style="background:var(--green);box-shadow:0 0 8px var(--green)"></span>Mark as Completed via FIFA</button>
+      <button class="btn btn-ghost" onclick="openModal('modal-feedback')">Leave Feedback</button>
+      <button class="btn btn-ghost btn-sm" style="border-color:var(--magenta);color:var(--magenta)" onclick="toast('Proposal cancelled','info');showPage('dashboard')">Cancel Proposal</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════
+let state = {
+  currentPage: 'landing',
+  currentStep: 1,
+  isLoggedIn: false,
+  user: null,
+  listings: [],
+  myListing: null,
+  proposals: [],
+  starRating: 0,
+  dashTab: 'overview'
+};
+
+// Sample listings data
+const SAMPLE_LISTINGS = [
+  {id:1,user:'Elena K.',avatar:'E',avatarBg:'linear-gradient(135deg,#00E5FF,#0055FF)',country:'Spain',trustScore:96,verified:true,have:{match:'ARG v ESP',date:'Jun 21',city:'Miami',cat:'Category 2',qty:2},want:{match:'BRA v FRA',date:'Jun 16',city:'NY/NJ',cat:'Category 2'},compat:94,color:'cyan'},
+  {id:2,user:'James T.',avatar:'J',avatarBg:'linear-gradient(135deg,#FF0055,#FF6600)',country:'England',trustScore:88,verified:true,have:{match:'GER v ENG',date:'Jun 18',city:'Los Angeles',cat:'Category 1',qty:1},want:{match:'USA v MEX',date:'Jun 22',city:'Dallas',cat:'Category 1-2'},compat:81,color:'magenta'},
+  {id:3,user:'Yuki M.',avatar:'Y',avatarBg:'linear-gradient(135deg,#00FF88,#00AAFF)',country:'Japan',trustScore:92,verified:true,have:{match:'USA v MEX',date:'Jun 22',city:'Dallas',cat:'Category 2',qty:2},want:{match:'Group Stage',date:'Any',city:'Los Angeles',cat:'Any'},compat:76,color:'cyan'},
+  {id:4,user:'Carlos R.',avatar:'C',avatarBg:'linear-gradient(135deg,#FFD700,#FF0055)',country:'Argentina',trustScore:79,verified:false,have:{match:'BRA v FRA',date:'Jun 16',city:'NY/NJ',cat:'Category 3',qty:1},want:{match:'Final',date:'Jul 19',city:'MetLife',cat:'Any'},compat:68,color:'magenta'},
+  {id:5,user:'Sophie L.',avatar:'S',avatarBg:'linear-gradient(135deg,#AA00FF,#0055FF)',country:'France',trustScore:95,verified:true,have:{match:'POR v ITA',date:'Jun 19',city:'Boston',cat:'Category 1',qty:2},want:{match:'ARG v ESP',date:'Jun 21',city:'Miami',cat:'Category 1-2'},compat:89,color:'cyan'},
+  {id:6,user:'Ahmed H.',avatar:'A',avatarBg:'linear-gradient(135deg,#00E5FF,#00FF88)',country:'Morocco',trustScore:83,verified:true,have:{match:'NED v BEL',date:'Jun 17',city:'Atlanta',cat:'Category 2',qty:1},want:{match:'Semi-Final',date:'Jul 15',city:'Atlanta',cat:'Any'},compat:72,color:'magenta'},
+  {id:7,user:'Lena B.',avatar:'L',avatarBg:'linear-gradient(135deg,#FF6600,#FFD700)',country:'Germany',trustScore:91,verified:true,have:{match:'Quarter-Final',date:'Jul 9',city:'San Francisco',cat:'Category 2',qty:2},want:{match:'GER v ENG',date:'Jun 18',city:'Los Angeles',cat:'Category 1-2'},compat:85,color:'cyan'},
+  {id:8,user:'Paulo F.',avatar:'P',avatarBg:'linear-gradient(135deg,#00FF88,#FFD700)',country:'Brazil',trustScore:74,verified:false,have:{match:'Final',date:'Jul 19',city:'MetLife',cat:'Category 4',qty:1},want:{match:'BRA v FRA',date:'Jun 16',city:'NY/NJ',cat:'Category 3-4'},compat:61,color:'magenta'},
+];
+
+// ═══════════════════════════════════════════════
+//  PAGE ROUTING
+// ═══════════════════════════════════════════════
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const el = document.getElementById('page-' + pageId);
+  if (el) {
+    el.classList.add('active');
+    state.currentPage = pageId;
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  if (pageId === 'browse') renderListings();
+  if (pageId === 'dashboard') renderDashboard();
+  if (pageId === 'list-ticket') {
+    state.currentStep = 1;
+    updateStepUI();
+    document.querySelectorAll('.step-form').forEach(f=>f.classList.remove('active'));
+    document.getElementById('step-1').classList.add('active');
+  }
+}
+
+function requireAuth(callback) {
+  if (state.isLoggedIn) { callback(); }
+  else { openModal('modal-signup'); state.pendingAction = callback; }
+}
+
+function scrollToSection(id) {
+  if (state.currentPage !== 'landing') { showPage('landing'); setTimeout(()=>scrollToSection(id),400); return; }
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ═══════════════════════════════════════════════
+//  MODAL
+// ═══════════════════════════════════════════════
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', e => { if (e.target === o) { o.classList.remove('open'); document.body.style.overflow = ''; }});
+});
+
+// ═══════════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════════
+function handleSignup() {
+  const first = document.getElementById('su-first').value.trim();
+  const last  = document.getElementById('su-last').value.trim();
+  const email = document.getElementById('su-email').value.trim();
+  const pass  = document.getElementById('su-pass').value;
+  const terms = document.getElementById('su-terms').checked;
+  let valid = true;
+
+  if (!email || !email.includes('@')) { showErr('su-email-err'); valid=false; } else hideErr('su-email-err');
+  if (pass.length < 8)                 { showErr('su-pass-err');  valid=false; } else hideErr('su-pass-err');
+  if (!terms)                          { showErr('su-terms-err'); valid=false; } else hideErr('su-terms-err');
+  if (!valid) return;
+
+  const name = (first || 'User') + (last ? ' ' + last.charAt(0) + '.' : '');
+  state.user = { name, email, first: first||'User', initials: (first||'U').charAt(0).toUpperCase() };
+  state.isLoggedIn = true;
+  closeModal('modal-signup');
+  updateNavForAuth();
+  toast('Welcome to SwapMatch, ' + (first||'User') + '! 🎉', 'success');
+  if (state.pendingAction) { setTimeout(state.pendingAction, 400); state.pendingAction = null; }
+}
+
+function handleLogin() {
+  const email = document.getElementById('li-email').value.trim();
+  const pass  = document.getElementById('li-pass').value;
+  let valid = true;
+  if (!email) { showErr('li-email-err'); valid=false; } else hideErr('li-email-err');
+  if (!pass)  { showErr('li-pass-err');  valid=false; } else hideErr('li-pass-err');
+  if (!valid) return;
+
+  // Demo: auto-login with email
+  const first = email.split('@')[0];
+  state.user = { name: first.charAt(0).toUpperCase()+first.slice(1)+' S.', email, first: first.charAt(0).toUpperCase()+first.slice(1), initials: first.charAt(0).toUpperCase() };
+  state.isLoggedIn = true;
+  state.proposals = [
+    {id:1,from:'Elena K.',match:'ARG v ESP',date:'Jun 21',city:'Miami',offer:'BRA v FRA / NY/NJ',compat:94,status:'pending',trustScore:96},
+    {id:2,from:'Sophie L.',match:'POR v ITA',date:'Jun 19',city:'Boston',offer:'BRA v FRA / NY/NJ',compat:78,status:'pending',trustScore:95},
+  ];
+  closeModal('modal-login');
+  updateNavForAuth();
+  toast('Welcome back, ' + state.user.first + '!', 'success');
+  if (state.pendingAction) { setTimeout(state.pendingAction, 400); state.pendingAction = null; }
+}
+
+function handleLogout() {
+  state.isLoggedIn = false;
+  state.user = null;
+  state.myListing = null;
+  state.proposals = [];
+  updateNavForAuth();
+  showPage('landing');
+  toast('Signed out successfully', 'info');
+}
+
+function updateNavForAuth() {
+  if (state.isLoggedIn && state.user) {
+    document.getElementById('nav-actions').classList.add('hidden');
+    document.getElementById('nav-user-actions').classList.remove('hidden');
+    document.getElementById('nav-avatar-letter').textContent = state.user.initials;
+    document.getElementById('nav-username-display').textContent = state.user.first;
+  } else {
+    document.getElementById('nav-actions').classList.remove('hidden');
+    document.getElementById('nav-user-actions').classList.add('hidden');
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  LISTINGS
+// ═══════════════════════════════════════════════
+function renderListings(filtered) {
+  const grid = document.getElementById('listings-grid');
+  const data = filtered || SAMPLE_LISTINGS;
+  if (!data.length) { grid.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No Matches Found</div><div class="empty-sub">Try adjusting your filters</div></div>'; return; }
+  grid.innerHTML = data.map(l => `
+    <div class="card listing-card card-${l.color}" onclick="openListingDetail(${l.id})">
+      <div class="lc-header">
+        <div>
+          <div style="font-family:var(--font-ui);font-size:.58rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">Offering</div>
+          <div class="lc-match">${l.have.match}</div>
+        </div>
+        ${l.trustScore >= 90 ? '<span class="badge badge-green"><span class="badge-dot"></span>Top Match</span>' : ''}
+      </div>
+      <div class="lc-user">
+        <div class="lc-avatar" style="background:${l.avatarBg}">${l.avatar}</div>
+        <div>
+          <div class="lc-username">${l.user}</div>
+          <div style="font-size:.68rem;color:var(--muted)">${l.country}</div>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <div class="lc-score ${l.trustScore>=90?'text-cyan':l.trustScore>=75?'text-green':'text-amber'}">${l.trustScore}</div>
+          <div style="font-size:.55rem;color:var(--muted);font-family:var(--font-ui)">Trust Score</div>
+        </div>
+      </div>
+      <div class="compat-bar">
+        <div class="compat-label"><span>Compatibility</span><span>${l.compat}%</span></div>
+        <div class="compat-track"><div class="compat-fill" style="width:${l.compat}%"></div></div>
+      </div>
+      <div class="lc-details">
+        <div class="lc-detail-box">
+          <div class="lc-detail-label">Have</div>
+          <div class="lc-detail-val">${l.have.match}</div>
+          <div style="font-size:.72rem;color:var(--muted)">${l.have.date} · ${l.have.city}</div>
+          <div style="font-size:.7rem;color:var(--muted)">${l.have.cat} · ${l.have.qty} ticket${l.have.qty>1?'s':''}</div>
+        </div>
+        <div class="lc-detail-box">
+          <div class="lc-detail-label">Want</div>
+          <div class="lc-detail-val">${l.want.match}</div>
+          <div style="font-size:.72rem;color:var(--muted)">${l.want.date} · ${l.want.city}</div>
+          <div style="font-size:.7rem;color:var(--muted)">${l.want.cat}</div>
+        </div>
+      </div>
+      ${!l.verified ? '<div class="badge badge-amber" style="margin-bottom:12px"><span class="badge-dot"></span>ID Not Verified — proceed with caution</div>' : ''}
+      <div class="lc-actions">
+        <button class="btn btn-${l.color} btn-sm" style="flex:1" onclick="event.stopPropagation();openProposalModal(${l.id})">
+          <span class="btn-dot" style="background:var(--${l.color});box-shadow:0 0 8px var(--${l.color})"></span>Send Proposal
+        </button>
+        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openListingDetail(${l.id})">View Profile</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterListings() {
+  const city  = document.getElementById('f-city').value;
+  const cat   = document.getElementById('f-cat').value;
+  const match = document.getElementById('f-match').value;
+  const trust = parseInt(document.getElementById('trust-range').value);
+  let filtered = SAMPLE_LISTINGS.filter(l => {
+    if (city  && !l.have.city.toLowerCase().includes(city.toLowerCase().split('/')[0])) return false;
+    if (cat   && !l.have.cat.toLowerCase().includes(cat.toLowerCase().replace('category ',''))) return false;
+    if (match && !l.have.match.toLowerCase().includes(match.toLowerCase().split(' v ')[0]||match.toLowerCase())) return false;
+    if (l.trustScore < trust) return false;
+    return true;
+  });
+  renderListings(filtered);
+}
+
+function openListingDetail(id) {
+  const l = SAMPLE_LISTINGS.find(x=>x.id===id);
+  if (!l) return;
+  requireAuth(() => openProposalModal(id));
+}
+
+function openProposalModal(id) {
+  requireAuth(()=>{
+    const l = SAMPLE_LISTINGS.find(x=>x.id===id);
+    if (!l) return;
+    document.getElementById('prop-to-name').textContent = l.user;
+    document.getElementById('prop-their-match').textContent = l.have.match;
+    document.getElementById('prop-their-meta').textContent = `${l.have.date} · ${l.have.city} · ${l.have.cat}`;
+    if (state.myListing) {
+      document.getElementById('prop-your-match').textContent = state.myListing.match;
+      document.getElementById('prop-your-meta').textContent = `${state.myListing.date} · ${state.myListing.cat}`;
+    }
+    openModal('modal-proposal');
+  });
+}
+
+function submitProposal() {
+  const confirm = document.getElementById('prop-confirm').checked;
+  if (!confirm) { toast('Please confirm the terms before sending', 'error'); return; }
+  closeModal('modal-proposal');
+  toast('Proposal sent successfully! 📨', 'success');
+  if (!state.myListing) {
+    state.myListing = { match:'BRA v FRA', date:'Jun 16, NY/NJ', cat:'Cat. 2', qty:2, want:'ARG v ESP', status:'active' };
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  LIST TICKET (multi-step)
+// ═══════════════════════════════════════════════
+function goToStep(n) {
+  if (n === 2) {
+    if (!document.getElementById('have-match').value) { showErr('e-have-match'); return; } else hideErr('e-have-match');
+    if (!document.getElementById('have-owner').checked) { showErr('e-have-owner'); return; } else hideErr('e-have-owner');
+  }
+  if (n === 3) {
+    if (!document.getElementById('want-match').value) { showErr('e-want-match'); return; } else hideErr('e-want-match');
+    buildReview();
+  }
+  state.currentStep = n;
+  document.querySelectorAll('.step-form').forEach((f,i)=>{ f.classList.toggle('active', i+1===n); });
+  updateStepUI();
+  window.scrollTo({top:160,behavior:'smooth'});
+}
+
+function updateStepUI() {
+  for (let i=1;i<=4;i++) {
+    const dot  = document.getElementById('si-'+i);
+    const line = document.getElementById('sl-'+i);
+    if (!dot) continue;
+    dot.classList.remove('done','current');
+    if (i < state.currentStep)  dot.classList.add('done');
+    if (i === state.currentStep) dot.classList.add('current');
+    if (line) { line.classList.toggle('done', i < state.currentStep); }
+  }
+}
+
+function buildReview() {
+  const hm = document.getElementById('have-match').value;
+  const hc = document.getElementById('have-cat').value;
+  const hq = document.getElementById('have-qty').value;
+  const ht = document.getElementById('have-type').value;
+  const hs = document.getElementById('have-section').value;
+  const wm = document.getElementById('want-match').value;
+  const wc = document.getElementById('want-cat').value;
+  const wq = document.getElementById('want-qty').value;
+  const wf = document.getElementById('want-flex').value;
+  const wn = document.getElementById('want-notes').value;
+  document.getElementById('review-have').innerHTML = `
+    <div><strong>Match:</strong> ${hm||'—'}</div>
+    <div><strong>Category:</strong> ${hc||'—'}</div>
+    <div><strong>Quantity:</strong> ${hq||'—'}</div>
+    <div><strong>Type:</strong> ${ht||'—'}</div>
+    ${hs?`<div><strong>Section:</strong> ${hs}</div>`:''}
+  `.split('<div>').join('<div style="margin-bottom:6px">');
+  document.getElementById('review-want').innerHTML = `
+    <div><strong>Preferred Match:</strong> ${wm||'—'}</div>
+    <div><strong>Category:</strong> ${wc||'Any'}</div>
+    <div><strong>Quantity:</strong> ${wq||'Any'}</div>
+    <div><strong>Flexibility:</strong> ${wf}</div>
+    ${wn?`<div><strong>Notes:</strong> ${wn}</div>`:''}
+  `.split('<div>').join('<div style="margin-bottom:6px">');
+}
+
+function submitListing() {
+  const l1 = document.getElementById('legal-1').checked;
+  const l2 = document.getElementById('legal-2').checked;
+  const l3 = document.getElementById('legal-3').checked;
+  const l4 = document.getElementById('legal-4').checked;
+  if (!l1||!l2||!l3||!l4) { showErr('e-legal'); return; } else hideErr('e-legal');
+  const hm = document.getElementById('have-match').value;
+  const hc = document.getElementById('have-cat').value;
+  const hq = document.getElementById('have-qty').value;
+  const wm = document.getElementById('want-match').value;
+  state.myListing = { match:hm, cat:hc, qty:hq, want:wm, date:'Jun 16, NY/NJ', status:'active' };
+  if (!state.proposals.length) {
+    state.proposals = [
+      {id:1,from:'Elena K.',match:'ARG v ESP',date:'Jun 21',city:'Miami',offer:hm,compat:94,status:'pending',trustScore:96},
+      {id:2,from:'Sophie L.',match:'POR v ITA',date:'Jun 19',city:'Boston',offer:hm,compat:78,status:'pending',trustScore:95},
+    ];
+  }
+  goToStep(4);
+  toast('Listing published! 🎫', 'success');
+}
+
+// ═══════════════════════════════════════════════
+//  DASHBOARD
+// ═══════════════════════════════════════════════
+function renderDashboard() {
+  if (!state.isLoggedIn) { requireAuth(()=>showPage('dashboard')); return; }
+  document.getElementById('dash-avatar').textContent = state.user.initials;
+  document.getElementById('dash-name').textContent = state.user.name;
+  document.getElementById('stat-received').textContent = state.proposals.length;
+  document.getElementById('proposal-count').textContent = state.proposals.filter(p=>p.status==='pending').length;
+  renderDashListing();
+  renderDashProposals();
+  renderDashMatches();
+  setDashTab(state.dashTab);
+}
+
+function setDashTab(tab) {
+  state.dashTab = tab;
+  ['overview','my-listing','proposals','matches'].forEach(t => {
+    const el = document.getElementById('dash-tab-'+t);
+    if (el) el.classList.toggle('hidden', t !== tab);
+  });
+  document.querySelectorAll('.sidebar-nav-item').forEach((item,i) => {
+    const tabs = ['overview','my-listing','proposals','matches'];
+    item.classList.toggle('active', tabs[i] === tab);
+  });
+}
+
+function renderDashListing() {
+  const el = document.getElementById('dash-listing-preview');
+  const el2 = document.getElementById('dash-full-listing');
+  if (!state.myListing) {
+    const empty = `<div class="empty-state" style="padding:30px"><div class="empty-icon">🎫</div><div class="empty-title">No Active Listing</div><div class="empty-sub" style="margin-bottom:20px">You haven't listed a ticket yet</div><button class="btn btn-cyan btn-sm" onclick="showPage('list-ticket')"><span class="btn-dot"></span>List My Ticket</button></div>`;
+    if(el) el.innerHTML = empty;
+    if(el2) el2.innerHTML = empty;
+    return;
+  }
+  const html = `
+    <div class="card card-cyan" style="padding:22px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+        <div>
+          <div style="font-family:var(--font-display);font-size:1.8rem;line-height:1">${state.myListing.match}</div>
+          <div style="font-size:.75rem;color:var(--muted);margin-top:4px">${state.myListing.date} · ${state.myListing.cat} · ${state.myListing.qty} ticket(s)</div>
+        </div>
+        <span class="badge badge-green"><span class="badge-dot"></span>Active</span>
+      </div>
+      <div style="font-size:.82rem;color:var(--muted)">Seeking: <span style="color:var(--white);font-weight:500">${state.myListing.want||'—'}</span></div>
+    </div>
+  `;
+  if(el) el.innerHTML = html;
+  if(el2) el2.innerHTML = html + `<div style="margin-top:16px;font-size:.82rem;color:var(--muted)">Your listing is visible to all SwapMatch users. Compatible matches are ranked by swap fairness and Trust Score.</div>`;
+}
+
+function renderDashProposals() {
+  const els = ['dash-proposals-preview','dash-all-proposals'];
+  const html = state.proposals.length ? state.proposals.map(p=>`
+    <div class="proposal-item" onclick="showProposalDetail(${p.id})">
+      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--magenta));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);flex-shrink:0">${p.from.charAt(0)}</div>
+      <div style="flex:1">
+        <div style="font-weight:600;font-size:.9rem">${p.from}</div>
+        <div class="proposal-match">${p.match} · ${p.date} · ${p.city}</div>
+        <div class="proposal-meta">Trust Score: <span style="color:var(--cyan)">${p.trustScore}</span> · Compatibility: <span style="color:var(--cyan)">${p.compat}%</span></div>
+      </div>
+      <div class="proposal-actions">
+        ${p.status==='pending'?`
+          <button class="btn btn-cyan btn-sm" onclick="event.stopPropagation();acceptProposal(${p.id})"><span class="btn-dot"></span>Accept</button>
+          <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();declineProposal(${p.id})">Decline</button>
+        `:p.status==='accepted'?`<span class="badge badge-green"><span class="badge-dot"></span>Accepted</span>`:`<span class="badge badge-amber">Declined</span>`}
+      </div>
+    </div>
+  `).join('') : `<div class="empty-state" style="padding:30px"><div class="empty-icon">📭</div><div class="empty-title">No Proposals Yet</div><div class="empty-sub">Proposals from other users will appear here</div></div>`;
+  els.forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html;});
+}
+
+function renderDashMatches() {
+  const grid = document.getElementById('dash-matches-grid');
+  if (!grid) return;
+  const top = SAMPLE_LISTINGS.slice(0,4);
+  grid.innerHTML = top.map(l => `
+    <div class="card listing-card card-${l.color}" style="cursor:pointer" onclick="showPage('browse')">
+      <div class="lc-user" style="margin-bottom:12px">
+        <div class="lc-avatar" style="background:${l.avatarBg}">${l.avatar}</div>
+        <div><div class="lc-username">${l.user}</div><div style="font-size:.65rem;color:var(--muted)">${l.country}</div></div>
+        <div class="lc-score ${l.trustScore>=90?'text-cyan':'text-green'}" style="margin-left:auto">${l.trustScore}</div>
+      </div>
+      <div class="compat-bar"><div class="compat-label"><span>Compat.</span><span>${l.compat}%</span></div><div class="compat-track"><div class="compat-fill" style="width:${l.compat}%"></div></div></div>
+      <div style="font-family:var(--font-display);font-size:1.3rem;margin-bottom:4px">${l.have.match}</div>
+      <div style="font-size:.75rem;color:var(--muted)">${l.have.date} · ${l.have.city}</div>
+    </div>
+  `).join('');
+}
+
+function acceptProposal(id) {
+  const p = state.proposals.find(x=>x.id===id);
+  if (p) { p.status = 'accepted'; renderDashProposals(); toast('Proposal accepted! 🤝 Check the FIFA Transfer Guide next.','success'); }
+}
+function declineProposal(id) {
+  const p = state.proposals.find(x=>x.id===id);
+  if (p) { p.status = 'declined'; renderDashProposals(); toast('Proposal declined','info'); }
+}
+
+function confirmDeleteListing() {
+  if (confirm('Remove your listing? This cannot be undone.')) {
+    state.myListing = null;
+    renderDashListing();
+    toast('Listing removed','info');
+  }
+}
+
+function showProposalDetail(id) {
+  const p = state.proposals.find(x=>x.id===id);
+  if (!p) return;
+  document.getElementById('pd-their-match').textContent = p.match;
+  document.getElementById('pd-their-meta').textContent = `${p.date} · ${p.city}`;
+  if (state.myListing) document.getElementById('pd-your-match').textContent = state.myListing.match;
+  showPage('proposal');
+}
+
+function markComplete() {
+  toast('Marked as completed via FIFA! Please leave feedback for the other user.','success');
+  setTimeout(()=>openModal('modal-feedback'),1000);
+}
+
+// ═══════════════════════════════════════════════
+//  FEEDBACK / STARS
+// ═══════════════════════════════════════════════
+function setStars(n) {
+  state.starRating = n;
+  document.querySelectorAll('.star').forEach((s,i) => s.classList.toggle('active', i < n));
+}
+function submitFeedback() {
+  if (!state.starRating) { toast('Please select a star rating','error'); return; }
+  closeModal('modal-feedback');
+  toast('Feedback submitted! Trust Score updated. 🌟','success');
+  state.starRating = 0;
+  document.querySelectorAll('.star').forEach(s=>s.classList.remove('active'));
+}
+
+// ═══════════════════════════════════════════════
+//  FORM HELPERS
+// ═══════════════════════════════════════════════
+function showErr(id) { const el=document.getElementById(id); if(el) el.style.display='block'; }
+function hideErr(id) { const el=document.getElementById(id); if(el) el.style.display='none'; }
+
+// ═══════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════
+function toast(msg, type='info') {
+  const icons = { success:'✅', error:'❌', info:'ℹ️' };
+  const div = document.createElement('div');
+  div.className = `toast ${type}`;
+  div.innerHTML = `<span>${icons[type]||'ℹ️'}</span><span>${msg}</span>`;
+  document.getElementById('toast-container').appendChild(div);
+  setTimeout(()=>{ div.style.animation='slideOut .3s ease forwards'; setTimeout(()=>div.remove(),300); }, 3800);
+}
+
+// ═══════════════════════════════════════════════
+//  SCROLL ANIMATIONS
+// ═══════════════════════════════════════════════
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Init
+renderListings();
+</script>
+</body>
+</html>
